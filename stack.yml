@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  jonathan:
+    image: 
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.jonathan.entrypoints=http"
+        - "traefik.http.routers.jonathan.rule=Host(jonathan.byronrm.com)"
+        - "traefik.http.middlewares.jonathan-https-redirect.redirectscheme.scheme=https"
+        - "traefik.http.routers.jonathan.middlewares=jonathan-https-redirect"
+        - "traefik.http.routers.jonathan-secure.entrypoints=https"
+        - "traefik.http.routers.jonathan-secure.rule=Host(jonathan.byronrm.com)"
+        - "traefik.http.routers.jonathan-secure.tls=true"
+        - "traefik.http.routers.jonathan-secure.tls.certresolver=http"
+        - "traefik.http.routers.jonathan-secure.service=jonathan"
+        - "traefik.http.services.jonathan.loadbalancer.server.port=5000"
+        - "traefik.docker.network=traefik-public"
+    networks:
+      - traefik-public
+    
+networks:
+  traefik-public:
+    external: true
