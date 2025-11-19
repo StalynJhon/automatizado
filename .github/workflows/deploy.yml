@@ -39,3 +39,23 @@ jobs:
       with:
         push: true
         tags: ghcr.io/stalynjhon/automatizado:1.0.0
+
+    - name: comprobacion de variables (colo locales, no secretos)
+      run: |
+        echo "host: ${{ secrets.VPS_HOST }}"
+        echo "username: ${{ secrets.VPS_USER }}"
+        echo "password: ${{ secrets.VPS_PASSWORD }}"
+        echo "port: ${{ secrets.VPS_SSH_PORT }}"
+
+    - name: probar la conexion SSH
+      uses: appleboy/ssh-action@v1
+      with:
+        host: $${{ secrets.VPS_HOST }}
+        username: ${{ secrets.VPS_USER }}
+        port: ${{ secrets.VPS_SSH_PORT }}
+        password: ${{ secrets.VPS_PASSWORD }
+        scrips: |
+          echo "Conexion exitosa Github Actions"
+          hostname
+          whoami
+          uptime 
