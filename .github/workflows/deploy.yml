@@ -38,4 +38,4 @@ jobs:
       uses: docker/build-push-action@v6
       with:
         push: true
-        tags: ghcr.io/StalynJhon/automatizado:1.0.0
+        tags: ghcr.io/stalynjhon/automatizado:1.0.0
